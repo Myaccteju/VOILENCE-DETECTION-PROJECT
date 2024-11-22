@@ -1,4 +1,3 @@
-
 import pickle
 import cv2
 import numpy as np
@@ -42,10 +41,3 @@ for labelID in tqdm(labelIDs):
         #face = cv2.resize(face, (96, 96))
         #faces.append(img)
         cv2.imwrite(path+"/"+str(i)+".jpeg",img)
-    
-    
-#     montage = build_montages(faces, (96, 96), (5, 5))[0]
-#     title = "Face ID #{}".format(labelID)
-#     title = "Unknown Faces" if labelID == -1 else title
-#     cv2.imshow(title, montage)
-#     cv2.waitKey(0)
