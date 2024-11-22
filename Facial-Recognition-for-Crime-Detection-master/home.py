@@ -167,90 +167,6 @@ def selectMultiImage(opt_menu, menu_var):
         next_slide.image = next_img
         next_slide.grid(row=0, column=2, padx=60)
 
-
-# def register(entries, required, menu_var):
-#     global img_list
-
-#     # Checking if no image selected
-#     if(len(img_list) == 0):
-#         messagebox.showerror("Error", "Select Images first.")
-#         return
-
-#     # Fetching data from entries
-#     entry_data = {}
-#     for i, entry in enumerate(entries):
-#         # print(i)
-#         val = entry[1].get()
-#         # print(val)
-
-#         if (len(val) == 0 and required[i] == 1):
-#             messagebox.showerror("Field Error", "Required field missing :\n\n%s" % (entry[0]))
-#             return
-#         else:
-#             entry_data[entry[0]] = val.lower()
-
-
-#     Setting Directory
-#     path = os.path.join('face_samples', "temp_criminal")
-#     if not os.path.isdir(path):
-#        os.mkdir(path)
-    
-#     import os
-
-# # Setting Directory
-# parent_directory = 'face_samples'
-# sub_directory = 'temp_criminal'
-
-# # Create the parent directory if it doesn't exist
-# if not os.path.exists(parent_directory):
-#     os.makedirs(parent_directory)
-
-# # Define the directory path using os.path.join
-# path = os.path.join(parent_directory, sub_directory)
-
-# # Check if the directory already exists
-# if not os.path.isdir(path):
-#     # If it doesn't exist, create the directory
-#     os.mkdir(path)
-
-
-#     no_face = []
-#     for i, img in enumerate(img_list):
-#         # Storing Images in directory
-#         id = registerCriminal(img, path, i + 1)
-#         if(id != None):
-#             no_face.append(id)
-
-#     # check if any image doesn't contain face
-#     if(len(no_face) > 0):
-#         no_face_st = ""
-#         for i in no_face:
-#             no_face_st += "Image " + str(i) + ", "
-#         messagebox.showerror("Registration Error", "Registration failed!\n\nFollowing images doesn't contain"
-#                         " face or Face is too small:\n\n%s"%(no_face_st))
-#         shutil.rmtree(path, ignore_errors=True)
-#     else:
-#         # Storing data in database
-#         insertData(entry_data)
-#         rowId=1
-#         if(rowId >= 0):
-#             messagebox.showinfo("Success", "Criminal Registered Successfully.")
-#             shutil.move(path, os.path.join('face_samples', entry_data["Name"]))
-
-#             # save profile pic
-#             profile_img_num = int(menu_var.get().split(' ')[1]) - 1
-#             if not os.path.isdir("profile_pics"):
-#                 os.mkdir("profile_pics")
-#             cv2.imwrite("profile_pics/criminal %d.png"%rowId, img_list[profile_img_num])
-
-#             goBack()
-#         else:
-#             shutil.rmtree(path, ignore_errors=True)
-#             messagebox.showerror("Database Error", "Some error occured while storing data.")
-
-## update scrollregion when all widgets are in canvas
-
-
 def register(entries, required, menu_var):
     global img_list
 
@@ -317,9 +233,6 @@ def register(entries, required, menu_var):
         else:
             shutil.rmtree(path, ignore_errors=True)
             messagebox.showerror("Database Error", "Some error occurred while storing data.")
-
-
-
 
 def on_configure(event, canvas, win):
     canvas.configure(scrollregion=canvas.bbox('all'))
@@ -393,12 +306,7 @@ def getPage1():
             opt_menu.configure(font="Arial 13", bg="#000000", fg="white", bd=0, highlightthickness=0, activebackground="#3E3B3C")
             menu = opt_menu.nametowidget(opt_menu.menuname)
             menu.configure(font="Arial 13", bg="white", activebackground="#90ceff", bd=0)
-
-    # print(entries)
-
-    # tk.Button(scroll_frame, text="Register", command=lambda: register(entries, required, menu_var), font="Arial 15 bold",
-    #        bg="#000000", fg="white", pady=10, padx=30, bd=0, highlightthickness=0, activebackground="#3E3B3C",
-    #        activeforeground="white").pack(pady=25)
+        activeforeground="white").pack(pady=25)
     tk.Button(scroll_frame, text="Register", command=lambda: register(entries, required, menu_var), font="Arial 15 bold",
            bg="#000000", fg="white", pady=10, padx=30, bd=0, highlightthickness=0, activebackground="#3E3B3C",
            activeforeground="white").pack(pady=25)
@@ -515,10 +423,6 @@ def getPage2():
            fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
            activeforeground="white").grid(row=0, column=1, padx=25, pady=25)
 
-# def path_leaf(path):
-#     head,tail = ntpath.split(path)
-
-
 def videoLoop(path,model, names):
     p=path
     q=ntpath.basename(p)
@@ -599,107 +503,7 @@ def videoLoop(path,model, names):
         print("[INFO]Caught Runtime Error")
     except tk.TclError:
         print("[INFO]Caught Tcl Error")
-
-
-# # video surveillance Page ##
-# def getPage4(path):
-#     p=path
-#     # print(p)
-#     global active_page, video_loop, left_frame, right_frame, thread_event, heading
-#     active_page = 4
-#     pages[4].lift()
-
-#     basicPageSetup(4)
-#     heading.configure(text="Video Surveillance")
-#     right_frame.configure(text="Detected Criminals")
-#     left_frame.configure(pady=40)
-
-#     btn_grid = tk.Frame(right_frame, bg="#3E3B3C")
-#     btn_grid.pack()
-
-#     (model, names) = train_model()
-#     print('Training Successful. Detecting Faces')
-
-#     thread_event = threading.Event()
-#     thread = threading.Thread(target=videoLoop, args=(p,model, names))
-#     thread.start()
-
-# def getPage3():
-#     global active_page, video_loop, left_frame, right_frame, thread_event, heading
-#     active_page = 3
-#     pages[3].lift()
-
-#     basicPageSetup(3)
-#     heading.configure(text="Video Surveillance")
-
-#     btn_grid = tk.Frame(left_frame,bg="#3E3B3C")
-#     btn_grid.pack()
-
-#     tk.Button(btn_grid, text="Select Video", command=selectvideo, font="Arial 15 bold", padx=20, bg="#000000",
-#                 fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
-#                 activeforeground="white").grid(row=0, column=0, padx=25, pady=25)
-    
-    
-
-#     # tk.Button(btn_grid, text="Recognize", command=getPage3(), font="Arial 15 bold", padx=20, bg="#000000",
-#     #        fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
-#     #        activeforeground="white").grid(row=0, column=1, padx=25, pady=25)
-
-
-# def selectvideo():
-#     global left_frame, img_label, img_read
-#     for wid in right_frame.winfo_children():
-#         wid.destroy()
-
-#     filetype = [("video", "*.mp4 *.mkv")]
-#     path = filedialog.askopenfilename(title="Choose a video", filetypes=filetype)
-#     p=''
-#     p=path
-    
-#     if(len(path) > 0):
-#         # vid_read = cv2.imread(path)
-#         # print(vid_read)
-#         getPage4(p)
-#         # img_read = cv2.imread(path)
-
-#     #     img_size =  left_frame.winfo_height() - 40
-#     #     showImage(img_read, img_size)
-
-# # def getPage3():
-# #     global active_page, left_frame, right_frame, img_label, heading
-# #     img_label = None
-# #     active_page = 2
-# #     pages[2].lift()
-
-# #     basicPageSetup(2)
-# #     heading.configure(text="Video Surveillance")
-# #     right_frame.configure(text="Detected Criminals")
-
-# #     btn_grid = tk.Frame(left_frame, bg="#3E3B3C")
-# #     btn_grid.pack()
-
-# #     tk.Button(btn_grid, text="Select video", command=selectvideo, font="Arial 15 bold", padx=20, bg="#000000",
-# #             fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
-# #             activeforeground="white").grid(row=0, column=0, padx=25, pady=25)
-# #     tk.Button(btn_grid, text="Recognize", command=startRecognition, font="Arial 15 bold", padx=20, bg="#000000",
-# #            fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
-# #            activeforeground="white").grid(row=0, column=1, padx=25, pady=25)
-
-# def selectvideo1():
-#     # global left_frame, img_label, img_read
-#     # for wid in right_frame.winfo_children():
-#     #     wid.destroy()
-
-#     filetype = [("video", "*.mp4 *.mkv")]
-#     path = filedialog.askopenfilename(title="Choose a video", filetypes=filetype)
-#     p=''
-#     p=path
-    
-#     if(len(path) > 0):
-#         # vid_read = cv2.imread(path)
-#         # print(vid_read)
-#        detect(p)
-
+        
 # video surveillance Page ##
 def getPage4(path):
     p=path
@@ -738,13 +542,6 @@ def getPage3():
                 fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
                 activeforeground="white").grid(row=0, column=0, padx=25, pady=25)
     
-    
-
-    # tk.Button(btn_grid, text="Recognize", command=getPage3(), font="Arial 15 bold", padx=20, bg="#000000",
-    #        fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
-    #        activeforeground="white").grid(row=0, column=1, padx=25, pady=25)
-
-
 def selectvideo():
     global left_frame, img_label, img_read
     for wid in right_frame.winfo_children():
@@ -761,29 +558,6 @@ def selectvideo():
         getPage4(p)
         # img_read = cv2.imread(path)
 
-    #     img_size =  left_frame.winfo_height() - 40
-    #     showImage(img_read, img_size)
-
-# def getPage3():
-#     global active_page, left_frame, right_frame, img_label, heading
-#     img_label = None
-#     active_page = 2
-#     pages[2].lift()
-
-#     basicPageSetup(2)
-#     heading.configure(text="Video Surveillance")
-#     right_frame.configure(text="Detected Criminals")
-
-#     btn_grid = tk.Frame(left_frame, bg="#3E3B3C")
-#     btn_grid.pack()
-
-#     tk.Button(btn_grid, text="Select video", command=selectvideo, font="Arial 15 bold", padx=20, bg="#000000",
-#             fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
-#             activeforeground="white").grid(row=0, column=0, padx=25, pady=25)
-#     tk.Button(btn_grid, text="Recognize", command=startRecognition, font="Arial 15 bold", padx=20, bg="#000000",
-#            fg="white", pady=10, bd=0, highlightthickness=0, activebackground="#3E3B3C",
-#            activeforeground="white").grid(row=0, column=1, padx=25, pady=25)
-
 def selectvideo1():
     # global left_frame, img_label, img_read
     # for wid in right_frame.winfo_children():
@@ -798,14 +572,6 @@ def selectvideo1():
         # vid_read = cv2.imread(path)
         # print(vid_read)
        detect(p)
-
-
-
-
-
-
-
-
 
 # ######################################## Home Page ####################################
 tk.Label(pages[0], text="Face Recognition System for Criminal Detection", fg="black", bg="#3E3B3C",
@@ -822,11 +588,6 @@ tk.Button(btn_frame, text="Add Criminal Details", command=getPage1)
 tk.Button(btn_frame, text="Image Surveillance", command=getPage2)
 tk.Button(btn_frame, text="Video Surveillance", command=getPage3)
 ####################################### Home Page ####################################
-
-
-
-
-
 
 for btn in btn_frame.winfo_children():
     btn.configure(font="Arial 20", width=17, bg="#000000", fg="white",
